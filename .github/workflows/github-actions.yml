@@ -16,6 +16,10 @@ on:
   release:
     types: [created]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   Publish-NPM-Package-With-GitHub-Actions:
     runs-on: self-hosted
@@ -44,7 +48,9 @@ jobs:
 # 
       #     git push && git push --tags
       # Publish to NPM
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
       - run: echo "🍏 This job's status is ${{ job.status }}."
